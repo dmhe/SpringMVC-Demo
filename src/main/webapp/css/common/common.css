@@ -1,0 +1,63 @@
+.navbar-inner .navbar-search {
+	margin: 7px 0 0 10px;
+}
+
+.navbar-inner .btn-right {
+	margin: 7px 25px 0;
+}
+
+.ch-container {
+	padding: 0 30px;
+}
+
+.sidebar-nav {
+	border-radius: 5px;
+	box-shadow: 0 0 10px #bdbdbd;
+	margin-bottom: 0;
+	max-height: none;
+	min-height: 0;
+	padding-bottom: 0;
+}
+
+.navbar-brand {
+	padding-left: 25px;
+}
+
+.ch-container .contentrow {
+	min-height: 480px;
+}
+
+.sidebar-nav .nav-header {
+	color: #999999;
+	display: block;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 24px;
+	padding: 3px 15px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	text-transform: uppercase;
+}
+
+.main-menu>li {
+	margin-top: 0 !important;
+}
+
+.main-menu>li {
+	margin-top: 0 !important;
+}
+
+ul.main-menu li:not (.nav-header ) {
+	transition: all 0.3s ease 0s;
+}
+
+ul.main-menu li.active {
+	margin-left: 8px;
+}
+
+.main-menu>li>a {
+	border: 1px solid rgba(221, 221, 221, 0.46);
+}
+
+.pagination>li>a {
+	cursor: pointer;
+}
