@@ -8,13 +8,13 @@ CREATE TABLE `adminuser` (
 )
 
 CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 )
 
 CREATE TABLE `resource` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `url` varchar(100) NOT NULL,
   `type` tinyint(4) NOT NULL,

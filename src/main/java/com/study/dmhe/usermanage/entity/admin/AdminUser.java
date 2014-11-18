@@ -1,8 +1,8 @@
 package com.study.dmhe.usermanage.entity.admin;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ public class AdminUser {
 	
 	private Boolean flag;
 	
-	private List<Role> roles = new ArrayList<Role>();
+	private Set<Role> roles = new HashSet<Role>();
 
 	@Id
 	@GeneratedValue
@@ -74,7 +74,7 @@ public class AdminUser {
 		this.createTime = createTime;
 	}
 
-	@Column
+	@Column(nullable=false)
 	public Boolean getFlag() {
 		return flag;
 	}
@@ -87,11 +87,11 @@ public class AdminUser {
 	@JoinTable(name="user_role", joinColumns={@JoinColumn(name="user_id")}, inverseJoinColumns={@JoinColumn(name="role_id")})
 	@Fetch(FetchMode.SUBSELECT)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 	

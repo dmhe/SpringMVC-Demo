@@ -7,7 +7,7 @@ public interface AdminUserService {
 	
 	public Pagination getAdminUser(String username, Boolean flag, Pagination page);
 
-	public AdminUser saveAdminUser(AdminUser adminUser);
+	public AdminUser saveAdminUser(AdminUser adminUser, Integer[] roleIds);
 	
 	public AdminUser getAdminUserById(Integer id);
 

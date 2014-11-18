@@ -1,7 +1,7 @@
 package com.study.dmhe.usermanage.entity.admin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class Role {
 	
 	private String name;
 	
-	private List<Resource> resources = new ArrayList<Resource>();
+	private Set<Resource> resources = new HashSet<Resource>();
 
 	@Id
 	@GeneratedValue
@@ -50,11 +50,11 @@ public class Role {
 	@JoinTable(name="role_resource", joinColumns={@JoinColumn(name="role_id")}, inverseJoinColumns={@JoinColumn(name="resource_id")})
 	@Fetch(FetchMode.SUBSELECT)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	public List<Resource> getResources() {
+	public Set<Resource> getResources() {
 		return resources;
 	}
 
-	public void setResources(List<Resource> resources) {
+	public void setResources(Set<Resource> resources) {
 		this.resources = resources;
 	}
 

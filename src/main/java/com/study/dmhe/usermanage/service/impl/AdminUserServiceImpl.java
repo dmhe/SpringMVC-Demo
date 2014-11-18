@@ -1,5 +1,8 @@
 package com.study.dmhe.usermanage.service.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.hibernate.criterion.Restrictions;
@@ -8,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.study.dmhe.usermanage.dao.AdminUserDao;
+import com.study.dmhe.usermanage.dao.RoleDao;
 import com.study.dmhe.usermanage.entity.admin.AdminUser;
+import com.study.dmhe.usermanage.entity.admin.Role;
 import com.study.dmhe.usermanage.service.AdminUserService;
 import com.study.dmhe.usermanage.util.Pagination;
 import com.study.dmhe.usermanage.util.XDetachedCriteria;
@@ -19,6 +24,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 	
 	@Resource
 	private AdminUserDao adminUserDao;
+	
+	@Resource
+	private RoleDao roleDao;
 
 	@Override
 	public Pagination getAdminUser(String username, Boolean flag, Pagination page) {
@@ -33,7 +41,16 @@ public class AdminUserServiceImpl implements AdminUserService {
 	}
 	
 	@Override
-	public AdminUser saveAdminUser(AdminUser adminUser) {
+	public AdminUser saveAdminUser(AdminUser adminUser, Integer[] roleIds) {
+		adminUser.setRoles(null);
+		if(roleIds != null) {
+			Set<Role> roleSet = new HashSet<Role>();
+			for(Integer roleId : roleIds) {
+				Role role = roleDao.get(roleId);
+				roleSet.add(role);
+			}
+			adminUser.setRoles(roleSet);
+		}
 		return adminUserDao.save(adminUser);
 	}
 

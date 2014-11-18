@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.study.dmhe.usermanage.entity.admin.AdminUser;
+import com.study.dmhe.usermanage.entity.admin.Role;
 import com.study.dmhe.usermanage.enums.ResourceType;
 import com.study.dmhe.usermanage.service.AdminUserService;
 import com.study.dmhe.usermanage.service.ResourceService;
@@ -37,8 +38,8 @@ public class AdminUserController {
 		}
 		pagination = adminUserService.getAdminUser(username, flag, pagination);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("username", username);
-		model.addAttribute("flag", flag);
+		model.addAttribute("username", username==null?"":username);
+		model.addAttribute("flag", flag==null?false:flag);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("subMenu", "adminUserManage");
 		model.addAttribute("mainMenu", "adminManage");
@@ -47,11 +48,11 @@ public class AdminUserController {
 	}
 	
 	@RequestMapping(value="/saveAdminUser")
-	public String saveAdminUser(@ModelAttribute AdminUser adminUser, ModelMap model) {
+	public String saveAdminUser(@ModelAttribute AdminUser adminUser, Integer[] roleIds, ModelMap model) {
 		try {
 			adminUser.setCreateTime(new Date());
 			adminUser.setFlag(true);
-			adminUserService.saveAdminUser(adminUser);
+			adminUserService.saveAdminUser(adminUser, roleIds);
 			model.addAttribute("success", true);
 			model.addAttribute("message", "保存成功！");
 		} catch(Exception e) {
@@ -69,13 +70,12 @@ public class AdminUserController {
 	}
 	
 	@RequestMapping(value="/editAdminUser")
-	public String editAdminUser(@ModelAttribute AdminUser adminUser, ModelMap model) {
+	public String editAdminUser(@ModelAttribute AdminUser adminUser, Integer[] roleIds, ModelMap model) {
 		try {
 			AdminUser adminUserTemp = adminUserService.getAdminUserById(adminUser.getId());
 			adminUserTemp.setUsername(adminUser.getUsername());
-			adminUserTemp.setRoles(adminUser.getRoles());
 			adminUserTemp.setFlag(adminUser.getFlag());
-			adminUserService.saveAdminUser(adminUserTemp);
+			adminUserService.saveAdminUser(adminUserTemp, roleIds);
 			model.addAttribute("success", true);
 			model.addAttribute("message", "保存成功！");
 		} catch(Exception e) {
@@ -93,11 +93,24 @@ public class AdminUserController {
 		}
 		pagination = roleService.getRoles(name, pagination);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("name", name);
+		model.addAttribute("name", name==null?"":name);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("subMenu", "roleManage");
 		model.addAttribute("mainMenu", "adminManage");
 		return "/admin/admin/roleManage";
+	}
+	
+	@RequestMapping(value="/saveRole")
+	public String saveRole(@ModelAttribute Role role, Integer[] resourceIds, ModelMap model) {
+		try {
+			roleService.saveRole(role, resourceIds);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "保存成功！");
+		} catch(Exception e) {
+			model.addAttribute("success", false);
+			model.addAttribute("message", "保存失败！");
+		}
+		return this.getRoles(null, null,model);
 	}
 	
 	@RequestMapping(value="/getResources")
@@ -108,8 +121,8 @@ public class AdminUserController {
 		}
 		pagination = resourceService.getResources(name, type, pagination);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("name", name);
-		model.addAttribute("type", type);
+		model.addAttribute("name", name==null?"":name);
+		model.addAttribute("type", type==null?"":type);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("subMenu", "resourceManage");
 		model.addAttribute("mainMenu", "adminManage");

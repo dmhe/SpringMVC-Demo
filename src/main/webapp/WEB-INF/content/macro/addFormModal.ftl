@@ -10,7 +10,6 @@
 		<#local inputs=formParams['inputs'] />
 	</#if>
 	
-	<!--添加用户弹出框开始-->
 	<div class="modal fade" id="<#if modalId??>${modalId}</#if>" tabindex="-1" role="dialog" aria-labelledby="<#if modalLabel??>${modalLabel}</#if>" aria-hidden="true">
 		<div class="modal-dialog" style="width:450px;margin-top:80px;">
     		<div class="modal-content">
@@ -28,9 +27,17 @@
 								<div class="form-group">
 							    	<label for="${name}" class="col-sm-3 control-label">${label}</label>
 								    <div class="col-sm-9">
-								    	<#if input["content"]??>
-								    		<#local content=input["content"] />
-								    		${content}
+								    	<#if type=="checkbox">
+								    		<#local options=input["options"] />
+								    		<div class="checkbox">
+									    		<#if options?? && (options?size>0)>
+									    		<#list options as option>
+									      		<label>
+									      			<input type="checkbox" name="${name}" value="${option.id}"> ${option.name}
+									        	</label>
+									        	</#list>
+									        	</#if>
+									      	</div>
 								    	<#else>
 								    		<#local id=input["id"] />
 								    		<input type="${type}" class="form-control" id="${id}" name="${name}" value="" />
@@ -48,5 +55,4 @@
 			</div>
 		</div>
 	</div>
-	<!--添加用户弹出框结束-->
 </#macro>   

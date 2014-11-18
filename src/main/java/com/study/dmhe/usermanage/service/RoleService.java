@@ -10,5 +10,7 @@ public interface RoleService {
 	public Pagination getRoles(String name, Pagination page);
 	
 	public List<Role> getAllRoles();
+	
+	public Role saveRole(Role role, Integer[] resourceIds);
 
 }
