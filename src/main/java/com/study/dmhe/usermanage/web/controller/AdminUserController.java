@@ -113,6 +113,22 @@ public class AdminUserController {
 		return this.getRoles(null, null,model);
 	}
 	
+	@RequestMapping(value="/toGrantResources")
+	public String toGrantResources(Integer id, Integer pageNo, ModelMap model) {
+		Role role = roleService.getRoleById(id);
+		Pagination pagination = new Pagination(10);
+		if(pageNo != null) {
+			pagination.setPageNo(pageNo);
+		}
+		pagination = resourceService.getResources(null, null, pagination);
+		model.addAttribute("grantedRole", role);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("subMenu", "roleManage");
+		model.addAttribute("mainMenu", "adminManage");
+		return "/admin/admin/toGrantResources";
+	}
+	
 	@RequestMapping(value="/getResources")
 	public String getResources(String name, ResourceType type, Integer pageNo, ModelMap model) {
 		Pagination pagination = new Pagination(10);
@@ -129,5 +145,25 @@ public class AdminUserController {
 		model.addAttribute("resourceTypes", ResourceType.values());
 		return "/admin/admin/resourceManage";
 	}
-
+	
+	@RequestMapping(value="/saveResource")
+	public String saveResource(@ModelAttribute com.study.dmhe.usermanage.entity.admin.Resource resource, ModelMap model) {
+		try {
+			resourceService.saveResource(resource);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "保存成功！");
+		} catch(Exception e) {
+			model.addAttribute("success", false);
+			model.addAttribute("message", "保存失败！");
+		}
+		return this.getResources(null, null, null, model);
+	}
+	
+	@RequestMapping(value="/toEditResource")
+	public String toEditResource(Integer id, ModelMap model) {
+		com.study.dmhe.usermanage.entity.admin.Resource resource = resourceService.getResourceById(id);
+		model.addAttribute("editedResource", resource);
+		return this.getResources(null, null, null, model);
+	}
+	
 }

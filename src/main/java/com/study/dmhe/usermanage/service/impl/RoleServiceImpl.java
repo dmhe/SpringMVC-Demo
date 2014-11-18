@@ -41,6 +41,11 @@ public class RoleServiceImpl implements RoleService {
 	public List<Role> getAllRoles() {
 		return roleDao.getAll();
 	}
+	
+	@Override
+	public Role getRoleById(Integer id) {
+		return roleDao.get(id);
+	}
 
 	@Override
 	public Role saveRole(Role role, Integer[] resourceIds) {

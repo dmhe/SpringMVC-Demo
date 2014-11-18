@@ -38,6 +38,16 @@
 									        	</#list>
 									        	</#if>
 									      	</div>
+									    <#elseif type=="select">
+											<#local options=input["options"] />
+											<select class="form-control" name="${name}">
+												<option value="">${label}</option>
+												<#if options??>
+													<#list options as option>
+														<option value="${option}">${option.typeName}</option>
+													</#list>
+												</#if>
+											</select>
 								    	<#else>
 								    		<#local id=input["id"] />
 								    		<input type="${type}" class="form-control" id="${id}" name="${name}" value="" />
