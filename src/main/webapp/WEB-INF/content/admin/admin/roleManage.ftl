@@ -7,7 +7,7 @@
 	
 	<!--数据列表开始-->
 	<div class="panel panel-default">
-		<div class="panel-heading">用户列表
+		<div class="panel-heading">角色列表
 			<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#addModal">
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加
 			</button>
@@ -17,7 +17,6 @@
 				<tr>
 					<td>序号</td>
 					<td>角色名</td>
-					<td>资源</td>
 					<td>操作</td>
 				</tr>
 			</thead>
@@ -29,15 +28,8 @@
 							<td>${role_index+1}</td>
 							<td>${role.name}</td>
 							<td>
-								<#if role.resources?? && (role.resources?size>0)>
-									<#list role.resources as resource>
-										${resource.name}&nbsp;&nbsp;
-									</#list>
-								</#if>
-							</td>
-							<td>
-								<a class="btn btn-info btn-xs" href="#">
-									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
+								<a class="btn btn-info btn-xs" href="${base}/admin/admin/toGrantResources?id=${role.id}">
+									<i class="glyphicon glyphicon-edit icon-white"></i> 授权资源
 								</a>
 							</td>
 						</tr>

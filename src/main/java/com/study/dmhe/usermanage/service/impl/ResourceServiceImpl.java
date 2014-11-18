@@ -1,5 +1,7 @@
 package com.study.dmhe.usermanage.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.hibernate.criterion.Restrictions;
@@ -30,6 +32,21 @@ public class ResourceServiceImpl implements ResourceService {
 			criteria.add(Restrictions.eq("m.type", type));
 		}
 		return resourceDao.findByCriteriaAndPagination(criteria, page);
+	}
+
+	@Override
+	public List<com.study.dmhe.usermanage.entity.admin.Resource> getAllResources() {
+		return resourceDao.getAll();
+	}
+	
+	@Override
+	public com.study.dmhe.usermanage.entity.admin.Resource getResourceById(Integer id) {
+		return resourceDao.get(id);
+	}
+
+	@Override
+	public com.study.dmhe.usermanage.entity.admin.Resource saveResource(com.study.dmhe.usermanage.entity.admin.Resource resource) {
+		return resourceDao.save(resource);
 	}
 
 }

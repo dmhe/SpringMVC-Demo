@@ -11,6 +11,8 @@ public interface RoleService {
 	
 	public List<Role> getAllRoles();
 	
+	public Role getRoleById(Integer id);
+	
 	public Role saveRole(Role role, Integer[] resourceIds);
 
 }
