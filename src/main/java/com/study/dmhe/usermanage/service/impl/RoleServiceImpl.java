@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.study.dmhe.usermanage.dao.ResourceDao;
+import com.study.dmhe.usermanage.dao.AuthorityDao;
 import com.study.dmhe.usermanage.dao.RoleDao;
+import com.study.dmhe.usermanage.entity.admin.Authority;
 import com.study.dmhe.usermanage.entity.admin.Role;
 import com.study.dmhe.usermanage.service.RoleService;
 import com.study.dmhe.usermanage.util.Pagination;
@@ -26,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
 	private RoleDao roleDao;
 	
 	@Resource
-	private ResourceDao resourceDao;
+	private AuthorityDao authorityDao;
 	
 	@Override
 	public Pagination getRoles(String name, Pagination page) {
@@ -48,15 +49,15 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role saveRole(Role role, Integer[] resourceIds) {
-		role.setResources(null);
-		if(resourceIds != null) {
-			Set<com.study.dmhe.usermanage.entity.admin.Resource> resourceSet = new HashSet<com.study.dmhe.usermanage.entity.admin.Resource>();
-			for(Integer resourceId : resourceIds) {
-				com.study.dmhe.usermanage.entity.admin.Resource resource = resourceDao.get(resourceId);
-				resourceSet.add(resource);
+	public Role saveRole(Role role, Integer[] authorityIds) {
+		role.setAuthorities(null);
+		if(authorityIds != null) {
+			Set<Authority> authoritySet = new HashSet<Authority>();
+			for(Integer authorityId : authorityIds) {
+				Authority authority = authorityDao.get(authorityId);
+				authoritySet.add(authority);
 			}
-			role.setResources(resourceSet);
+			role.setAuthorities(authoritySet);
 		}
 		return roleDao.save(role);
 	}

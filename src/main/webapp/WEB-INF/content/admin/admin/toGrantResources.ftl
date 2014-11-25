@@ -2,7 +2,7 @@
 	<div>
 	    <ul class="breadcrumb">
 	        <li>
-	            <a href="#">角色管理</a>
+	            <a href="#">权限管理</a>
 	        </li>
 	        <li>
 	            <a href="#">授权资源</a>
@@ -10,19 +10,19 @@
 	    </ul>
 	</div>
 	<form id="queryForm" action="${base}/admin/admin/toGrantResources" method="post">
-		<input type="hidden" name="id" value="<#if grantedRole??>${grantedRole.id}</#if>" />
+		<input type="hidden" name="id" value="<#if grantedAuthority??>${grantedAuthority.id}</#if>" />
 		<input type="hidden" id="pageNo" name="pageNo" value="" />
 	</form>
 	<!--数据列表开始-->
-	<form id="grantForm" action="${base}/admin/admin/saveRole" method="post">
+	<form id="grantForm" action="${base}/admin/admin/saveAuthority" method="post">
 		<div class="panel panel-default">
-			<div class="panel-heading">角色-<#if grantedRole??>${grantedRole.name}</#if>
+			<div class="panel-heading">权限-<#if grantedAuthority??>${grantedAuthority.name}</#if>
 				<button type="button" class="btn btn-default pull-right" onclick="$('#grantForm').submit();">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 授权
 				</button>
 			</div>
-			<input type="hidden" name="id" value="<#if grantedRole??>${grantedRole.id}</#if>" />
-			<input type="hidden" name="name" value="<#if grantedRole??>${grantedRole.name}</#if>" />
+			<input type="hidden" name="id" value="<#if grantedAuthority??>${grantedAuthority.id}</#if>" />
+			<input type="hidden" name="name" value="<#if grantedAuthority??>${grantedAuthority.name}</#if>" />
 			<table class="table table-bordered">
 				<thead>
 					<tr>

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.study.dmhe.usermanage.entity.admin.AdminUser;
+import com.study.dmhe.usermanage.entity.admin.Authority;
 import com.study.dmhe.usermanage.entity.admin.Role;
 import com.study.dmhe.usermanage.enums.ResourceType;
 import com.study.dmhe.usermanage.service.AdminUserService;
+import com.study.dmhe.usermanage.service.AuthorityService;
 import com.study.dmhe.usermanage.service.ResourceService;
 import com.study.dmhe.usermanage.service.RoleService;
 import com.study.dmhe.usermanage.util.Pagination;
@@ -26,6 +28,9 @@ public class AdminUserController {
 	
 	@Resource
 	private RoleService roleService;
+	
+	@Resource
+	private AuthorityService authorityService;
 	
 	@Resource
 	private ResourceService resourceService;
@@ -97,13 +102,14 @@ public class AdminUserController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("subMenu", "roleManage");
 		model.addAttribute("mainMenu", "adminManage");
+		model.addAttribute("allAuthorities", authorityService.getAllAuthorities());
 		return "/admin/admin/roleManage";
 	}
 	
 	@RequestMapping(value="/saveRole")
-	public String saveRole(@ModelAttribute Role role, Integer[] resourceIds, ModelMap model) {
+	public String saveRole(@ModelAttribute Role role, Integer[] authorityIds, ModelMap model) {
 		try {
-			roleService.saveRole(role, resourceIds);
+			roleService.saveRole(role, authorityIds);
 			model.addAttribute("success", true);
 			model.addAttribute("message", "保存成功！");
 		} catch(Exception e) {
@@ -113,18 +119,68 @@ public class AdminUserController {
 		return this.getRoles(null, null,model);
 	}
 	
+	@RequestMapping(value="/toEditRole")
+	public String toEditRole(Integer id, ModelMap model) {
+		Role role = roleService.getRoleById(id);
+		model.addAttribute("editedRole", role);
+		return this.getRoles(null, null, model);
+	}
+	
+	@RequestMapping(value="/editRole")
+	public String editRole(@ModelAttribute Role role, Integer[] authorityIds, ModelMap model) {
+		try {
+			Role roleTemp = roleService.getRoleById(role.getId());
+			roleTemp.setName(role.getName());
+			roleService.saveRole(roleTemp, authorityIds);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "保存成功！");
+		} catch(Exception e) {
+			model.addAttribute("success", false);
+			model.addAttribute("message", "保存失败！");
+		}
+		return this.getRoles(null, null, model);
+	}
+	
+	@RequestMapping(value="/getAuthorities")
+	public String getAuthorities(String name, Integer pageNo, ModelMap model) {
+		Pagination pagination = new Pagination(10);
+		if(pageNo != null) {
+			pagination.setPageNo(pageNo);
+		}
+		pagination = authorityService.getAuthorities(name, pagination);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("name", name==null?"":name);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("subMenu", "authorityManage");
+		model.addAttribute("mainMenu", "adminManage");
+		return "/admin/admin/authorityManage";
+	}
+	
+	@RequestMapping(value="/saveAuthority")
+	public String saveAuthority(@ModelAttribute Authority authority, Integer[] resourceIds, ModelMap model) {
+		try {
+			authorityService.saveAuthority(authority, resourceIds);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "保存成功！");
+		} catch(Exception e) {
+			model.addAttribute("success", false);
+			model.addAttribute("message", "保存失败！");
+		}
+		return this.getAuthorities(null, null,model);
+	}
+	
 	@RequestMapping(value="/toGrantResources")
 	public String toGrantResources(Integer id, Integer pageNo, ModelMap model) {
-		Role role = roleService.getRoleById(id);
+		Authority authority = authorityService.getAuthorityById(id);
 		Pagination pagination = new Pagination(10);
 		if(pageNo != null) {
 			pagination.setPageNo(pageNo);
 		}
 		pagination = resourceService.getResources(null, null, pagination);
-		model.addAttribute("grantedRole", role);
+		model.addAttribute("grantedAuthority", authority);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("subMenu", "roleManage");
+		model.addAttribute("subMenu", "authorityManage");
 		model.addAttribute("mainMenu", "adminManage");
 		return "/admin/admin/toGrantResources";
 	}

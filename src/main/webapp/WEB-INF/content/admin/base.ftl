@@ -7,11 +7,9 @@
     <!-- The styles -->
     <link id="bs-css" href="${base}/css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="${base}/css/common/common.css" rel="stylesheet">
-    <link href="${base}/css/datatables/jquery.dataTables.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="${base}/js/jQuery/jquery-1.11.1.min.js"></script>
     <script src="${base}/js/bootstrap/bootstrap.min.js"></script>
-    <script src="${base}/js/datatables/jquery.dataTables.min.js"></script>
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -43,7 +41,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="login.html">退出</a></li>
+                    <li><a href="/logout">退出</a></li>
                 </ul>
             </div>
             <!-- user dropdown ends -->
@@ -76,6 +74,9 @@
 	                        <li <#if subMenu?? && subMenu=="roleManage">class="active"</#if>>
 	                        	<a class="ajax-link" href="${base}/admin/admin/getRoles"><i class="glyphicon glyphicon-eye-open"></i><span> 角色管理</span></a>
 	                        </li>
+	                        <li <#if subMenu?? && subMenu=="authorityManage">class="active"</#if>>
+	                        	<a class="ajax-link" href="${base}/admin/admin/getAuthorities"><i class="glyphicon glyphicon-eye-open"></i><span> 权限管理</span></a>
+	                        </li>
 	                        <li <#if subMenu?? && subMenu=="resourceManage">class="active"</#if>>
 	                        	<a class="ajax-link" href="${base}/admin/admin/getResources"><i class="glyphicon glyphicon-list-alt"></i><span> 资源管理</span></a>
 	                        </li>
@@ -105,7 +106,7 @@
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-header">
-	                    <button type="button" class="close" data-dismiss="modal">��</button>
+	                    <button type="button" class="close" data-dismiss="modal"></button>
 	                    <h3>Settings</h3>
 	                </div>
 	                <div class="modal-body">

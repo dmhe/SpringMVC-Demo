@@ -25,7 +25,7 @@ public class Role {
 	
 	private String name;
 	
-	private Set<Resource> resources = new HashSet<Resource>();
+	private Set<Authority> authorities = new HashSet<Authority>();
 
 	@Id
 	@GeneratedValue
@@ -47,15 +47,15 @@ public class Role {
 	}
 
 	@ManyToMany
-	@JoinTable(name="role_resource", joinColumns={@JoinColumn(name="role_id")}, inverseJoinColumns={@JoinColumn(name="resource_id")})
+	@JoinTable(name="role_authority", joinColumns={@JoinColumn(name="role_id")}, inverseJoinColumns={@JoinColumn(name="authority_id")})
 	@Fetch(FetchMode.SUBSELECT)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	public Set<Resource> getResources() {
-		return resources;
+	public Set<Authority> getAuthorities() {
+		return authorities;
 	}
 
-	public void setResources(Set<Resource> resources) {
-		this.resources = resources;
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 
 }

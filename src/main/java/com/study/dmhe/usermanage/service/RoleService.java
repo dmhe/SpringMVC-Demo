@@ -13,6 +13,6 @@ public interface RoleService {
 	
 	public Role getRoleById(Integer id);
 	
-	public Role saveRole(Role role, Integer[] resourceIds);
+	public Role saveRole(Role role, Integer[] authorityIds);
 
 }
