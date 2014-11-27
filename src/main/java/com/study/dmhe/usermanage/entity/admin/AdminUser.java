@@ -1,5 +1,6 @@
 package com.study.dmhe.usermanage.entity.admin;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,16 +15,22 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="AdminUser")
-public class AdminUser {
+public class AdminUser  implements UserDetails {
 	
+	private static final long serialVersionUID = 8697919848060399359L;
+
 	private Integer id;
 	
 	private String username;
@@ -32,7 +39,7 @@ public class AdminUser {
 	
 	private Date createTime;
 	
-	private Boolean flag;
+	private Boolean enabled;
 	
 	private Set<Role> roles = new HashSet<Role>();
 
@@ -75,12 +82,12 @@ public class AdminUser {
 	}
 
 	@Column(nullable=false)
-	public Boolean getFlag() {
-		return flag;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setFlag(Boolean flag) {
-		this.flag = flag;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@ManyToMany
@@ -94,5 +101,31 @@ public class AdminUser {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
+	@Transient
+	public Collection<GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authSet = new HashSet<GrantedAuthority>();
+		for (Role role : this.getRoles()) {
+			for (Authority authority : role.getAuthorities()) {
+				authSet.add(new SimpleGrantedAuthority(authority.getName()));
+			}
+		}
+		return authSet;
+	}
+
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Transient
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
 }

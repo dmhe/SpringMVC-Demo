@@ -18,11 +18,11 @@
 	</http>
 	
 	<authentication-manager alias="authenticationManager">
-		<authentication-provider>
-			<user-service>
-				<user authorities="ROLE_USER" name="admin" password="111111" />
-			</user-service>
+		<authentication-provider user-service-ref="userService">
+			
 		</authentication-provider>
 	</authentication-manager>
+	
+	<beans:bean id="userService" class="com.study.dmhe.usermanage.web.security.UserDetailsServiceImpl" />
 
 </beans:beans>

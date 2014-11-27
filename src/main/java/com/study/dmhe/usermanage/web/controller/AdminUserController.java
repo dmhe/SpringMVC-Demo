@@ -56,7 +56,7 @@ public class AdminUserController {
 	public String saveAdminUser(@ModelAttribute AdminUser adminUser, Integer[] roleIds, ModelMap model) {
 		try {
 			adminUser.setCreateTime(new Date());
-			adminUser.setFlag(true);
+			adminUser.setEnabled(true);
 			adminUserService.saveAdminUser(adminUser, roleIds);
 			model.addAttribute("success", true);
 			model.addAttribute("message", "保存成功！");
@@ -79,7 +79,7 @@ public class AdminUserController {
 		try {
 			AdminUser adminUserTemp = adminUserService.getAdminUserById(adminUser.getId());
 			adminUserTemp.setUsername(adminUser.getUsername());
-			adminUserTemp.setFlag(adminUser.getFlag());
+			adminUserTemp.setEnabled(adminUser.isEnabled());
 			adminUserService.saveAdminUser(adminUserTemp, roleIds);
 			model.addAttribute("success", true);
 			model.addAttribute("message", "保存成功！");

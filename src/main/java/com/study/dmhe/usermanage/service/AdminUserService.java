@@ -10,5 +10,7 @@ public interface AdminUserService {
 	public AdminUser saveAdminUser(AdminUser adminUser, Integer[] roleIds);
 	
 	public AdminUser getAdminUserById(Integer id);
+	
+	public AdminUser getAdminUserByUserName(String username);
 
 }

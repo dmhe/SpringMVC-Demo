@@ -59,4 +59,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 		return adminUserDao.get(id);
 	}
 
+	@Override
+	public AdminUser getAdminUserByUserName(String username) {
+		return adminUserDao.findUniqueBy("username", username);
+	}
+
 }
