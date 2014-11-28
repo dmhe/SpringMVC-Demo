@@ -11,18 +11,34 @@
 	<http pattern="/adminLogin.jsp*" security="none"/>
 
 	<http>
-		<intercept-url pattern="/**" access="ROLE_USER" />
+		<custom-filter ref="myFilterSecurityInterceptor" after="FILTER_SECURITY_INTERCEPTOR"/>
 		<form-login login-page="/adminLogin.jsp" login-processing-url="/login" username-parameter="username" password-parameter="password" />
 		<logout logout-url="/logout" />
 		<remember-me remember-me-parameter="remember"/>
 	</http>
 	
 	<authentication-manager alias="authenticationManager">
-		<authentication-provider user-service-ref="userService">
-			
-		</authentication-provider>
+		<authentication-provider user-service-ref="userService" />
 	</authentication-manager>
 	
 	<beans:bean id="userService" class="com.study.dmhe.usermanage.web.security.UserDetailsServiceImpl" />
+	
+	<beans:bean id="myFilterSecurityInterceptor" class="com.study.dmhe.usermanage.web.security.MyFilterSecurityInterceptor">
+		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="securityMetadataSource" ref="databaseDefinitionSource" />
+	</beans:bean>
+	
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter"></beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager" />
+	
+	<beans:bean id="databaseDefinitionSource" class="com.study.dmhe.usermanage.web.security.MyFilterInvocationSecurityMetadataSource" />
 
 </beans:beans>
